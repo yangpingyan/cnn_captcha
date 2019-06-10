@@ -46,7 +46,7 @@ def main():
         sample_conf = json.load(f)
 
     # 配置相关参数
-    test_path = "sample/test/0401_15440848576253345.png"  # 测试识别的图片路径
+    test_path = "sample/test/1GCW_15601595535175657.png"  # 测试识别的图片路径
     save_path = sample_conf["local_image_dir"]  # 保存的地址
     image_suffix = sample_conf["image_suffix"]  # 文件后缀
     recognize_captcha(test_path, save_path, image_suffix)
