@@ -1,5 +1,5 @@
 {
-  "root_dir": "sample/origin/",
+  "root_dir": "c:/sample/origin/",
   "image_suffix": "png",
   "characters": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
   "count": 20000,

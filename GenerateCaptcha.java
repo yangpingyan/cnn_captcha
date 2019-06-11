@@ -1,12 +1,15 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.Random;
 
+//批量生成verpic.do的验证码
 
-public class VerifyCodeTools {
+public class GenerateCaptcha {
 
     private int w = 70;
     private int h = 35;
@@ -37,7 +40,7 @@ public class VerifyCodeTools {
         for (int i = 0; i < 4; i++) {
             String s = randomChar() + "";
 
-            if(s.equals("0") || s.equalsIgnoreCase("o")) s = randomChar() + "";//modify by neo on 2017.01.03
+            if (s.equals("0") || s.equalsIgnoreCase("o")) s = randomChar() + "";
 
             sb.append(s);
             float x = i * 1.0F * w / 4;
@@ -97,29 +100,24 @@ public class VerifyCodeTools {
         return text;
     }
 
-    //定义输出的对象和输出的方向
-    public void output(BufferedImage bi, OutputStream fos) throws IOException {
-        ImageIO.write(bi, "JPEG", fos);
+
+    public static void main(String[] args) {
+        for (int i=0; i<10000; i++) {
+            GenerateCaptcha gc = new GenerateCaptcha();
+            BufferedImage bi = gc.createImage();
+            String file_name = null;
+            String root_dir = "C:\\qqcloud\\github\\cnn_captcha\\sample\\new_train\\";
+            Date date = new Date();
+            file_name = String.format("%s%s_%tQ%s", root_dir, gc.getVerifyText(), date, ".png");
+            System.out.println(String.format("%s - %s", i, file_name));
+
+            try {
+                ImageIO.write(bi, "png", new File(file_name));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-@RequestMapping(name = "登录-验证码", value = "/verpic.do", method = RequestMethod.GET)
-public void verpic(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    logger.debug(request.getSession().getId());
-
-    ServletOutputStream out = response.getOutputStream();
-
-    VerifyCodeTools vctls = new VerifyCodeTools();
-
-    BufferedImage bi = vctls.createImage();
-
-    request.getSession().setAttribute(SysVar.LOGIN_VERPIC, vctls.getVerifyText());
-
-    vctls.output(bi, out);
-
-    out.flush();
-    out.close();
 }
-<img src="${path}/verpic.do" alt="验证码" name="checkImg" id="checkImg"
-  onClick="document.getElementById('checkImg').src='${path}/verpic.do?temp='+
-          (new Date().getTime().toString(36)); return false;"/>
+

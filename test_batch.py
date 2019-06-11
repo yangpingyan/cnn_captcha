@@ -98,7 +98,7 @@ def main():
     with open("conf/sample_config.json", "r") as f:
         sample_conf = json.load(f)
 
-    test_image_dir = sample_conf["test_image_dir"]
+    test_image_dir = sample_conf["local_image_dir"]
     model_save_dir = sample_conf["model_save_dir"]
 
     use_labels_json_file = sample_conf['use_labels_json_file']
